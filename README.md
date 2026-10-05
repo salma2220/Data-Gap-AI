@@ -12,7 +12,7 @@ Organizations often begin data analysis without realizing that their datasets ar
 
 DataGap AI addresses this problem by analyzing uploaded CSV or Excel datasets against a business question. It evaluates the dataset structure, data quality, and coverage to identify potential data gaps before analysis begins.
 
-![DataGap AI Homepage](home.png)
+![DataGap AI Homepage](a1.png)
 
 How It Works
 
@@ -32,13 +32,13 @@ Key Features
 - Actionable recommendations for additional data collection
 - Interactive dashboard for visualizing data limitations and potential impacts
 
-![New Analysis](new-analysis.png)
+![New Analysis](a2.png)
 
 Analysis Report
 
 DataGap AI generates an analysis report that presents the Data Readiness Score, risk level, identified data gaps, and recommended actions.
 
-![Analysis Report](analysis-report.png)
+![Analysis Report](a3.jpeg)
 
 Technologies
 
