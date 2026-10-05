@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "DataGap AI"
+version = "1.0.0"
+id = "artifacts/datagap-ai"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18896
+
+[services.development]
+run = "pnpm --filter @workspace/datagap-ai run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/datagap-ai", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/datagap-ai/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18896"
+BASE_PATH = "/"

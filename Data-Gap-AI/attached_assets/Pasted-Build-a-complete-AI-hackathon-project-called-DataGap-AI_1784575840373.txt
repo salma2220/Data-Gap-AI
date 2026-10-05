@@ -1,0 +1,132 @@
+Build a complete AI hackathon project called "DataGap AI".
+
+Project idea:
+DataGap AI is an AI-powered Data Readiness Assistant that helps organizations and analysts understand whether they have enough data to answer an important business question.
+
+The problem:
+Many decisions fail because organizations analyze incomplete data. Before building reports or AI models, they need to know what information is missing.
+
+The solution:
+The user enters a business question and uploads a sample dataset (CSV/Excel). The AI analyzes the goal and available columns, then identifies missing data requirements, risks, and recommendations.
+
+Core features:
+
+1. Landing Page:
+Create a professional AI startup landing page.
+
+Include:
+- Project name: DataGap AI
+- Tagline:
+"Discover the data you need before making important decisions."
+- Explain the problem and impact.
+- Add modern AI visuals.
+- Add Start Analysis button.
+
+2. Data Analysis Workspace:
+
+User inputs:
+- Business question
+Example:
+"Why are customer sales decreasing?"
+
+- Upload CSV or Excel dataset.
+
+The system analyzes:
+- Available columns
+- Data types
+- Missing information
+- Data coverage
+- Possible blind spots
+
+3. AI Data Gap Analysis:
+
+Generate a report containing:
+
+Data Readiness Score:
+Example: 65%
+
+Available Data:
+✓ Customer transactions
+✓ Sales history
+
+Missing Data:
+⚠ Customer feedback
+⚠ Marketing campaigns
+⚠ Competitor information
+
+Why it matters:
+Explain how missing data affects the accuracy of decisions.
+
+Recommendations:
+Suggest what additional data should be collected.
+
+4. AI Agent Explanation:
+
+Create an AI assistant panel that explains:
+- Why this data is insufficient
+- What questions cannot be answered
+- What additional information would improve the analysis
+
+5. Dashboard:
+
+Create a beautiful dashboard with:
+
+- Data Readiness Score card
+- Missing Data cards
+- Risk level
+- Recommendations
+- Analysis timeline
+- Charts
+
+6. Demo Mode:
+
+Include a sample dataset so the application works immediately without uploading files.
+
+Example scenario:
+Retail sales analysis.
+
+Show:
+Question:
+"Why did sales decrease?"
+
+Available:
+Sales, Products, Dates
+
+Missing:
+Customer satisfaction, Marketing campaigns, Competitor pricing
+
+
+7. Technical requirements:
+
+- Build a full-stack web application.
+- Modern responsive UI.
+- Professional enterprise design.
+- Use React.
+- Create backend API.
+- Use AI API integration structure.
+- If API key is unavailable, create realistic AI simulation responses for demo.
+- Add loading animations.
+- Add error handling.
+- Add sample data.
+- Make everything functional.
+
+8. Hackathon presentation requirements:
+
+Generate:
+- Project description
+- Problem statement
+- Solution explanation
+- Impact statement
+- Future vision
+
+9. Create visual assets:
+
+Generate placeholders for:
+- Logo
+- Hero image
+- Dashboard preview images
+
+Style:
+Modern AI, futuristic, enterprise, clean.
+
+The final product should look like a real AI startup prototype, not a simple student project.

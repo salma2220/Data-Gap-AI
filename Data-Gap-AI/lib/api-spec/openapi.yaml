@@ -1,0 +1,398 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: DataGap AI API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: analyses
+    description: Data gap analysis operations
+  - name: demo
+    description: Demo data operations
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /analyses:
+    get:
+      operationId: listAnalyses
+      tags: [analyses]
+      summary: List all analyses
+      responses:
+        "200":
+          description: List of analyses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Analysis"
+
+    post:
+      operationId: createAnalysis
+      tags: [analyses]
+      summary: Create a new data gap analysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnalysisInput"
+      responses:
+        "201":
+          description: Analysis created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analysis"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analyses/{id}:
+    get:
+      operationId: getAnalysis
+      tags: [analyses]
+      summary: Get analysis by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Analysis detail
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analysis"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      operationId: deleteAnalysis
+      tags: [analyses]
+      summary: Delete an analysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted successfully
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /analyses/{id}/report:
+    get:
+      operationId: getAnalysisReport
+      tags: [analyses]
+      summary: Get the AI-generated gap analysis report for an analysis
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Analysis report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisReport"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /demo:
+    get:
+      operationId: getDemo
+      tags: [demo]
+      summary: Get a pre-built demo analysis with retail sales scenario
+      responses:
+        "200":
+          description: Demo analysis with report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DemoData"
+
+  /stats:
+    get:
+      operationId: getStats
+      tags: [analyses]
+      summary: Get summary statistics about all analyses
+      responses:
+        "200":
+          description: Statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnalysisStats"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+
+    ColumnInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        sampleValues:
+          type: array
+          items:
+            type: string
+        nullPercent:
+          type: number
+        relevanceScore:
+          type: number
+        relevanceReason:
+          type: string
+      required:
+        - name
+        - type
+        - sampleValues
+        - nullPercent
+        - relevanceScore
+        - relevanceReason
+
+    Analysis:
+      type: object
+      properties:
+        id:
+          type: integer
+        question:
+          type: string
+        filename:
+          type: string
+        rowCount:
+          type: integer
+        columnCount:
+          type: integer
+        status:
+          type: string
+          enum: [pending, processing, complete, failed]
+        readinessScore:
+          type: ["integer", "null"]
+        riskLevel:
+          type: ["string", "null"]
+          enum: [low, medium, high, null]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - question
+        - filename
+        - rowCount
+        - columnCount
+        - status
+        - readinessScore
+        - riskLevel
+        - createdAt
+
+    AnalysisInput:
+      type: object
+      properties:
+        question:
+          type: string
+          minLength: 5
+        filename:
+          type: string
+        csvData:
+          type: string
+          description: Raw CSV content as a string
+      required:
+        - question
+        - filename
+        - csvData
+
+    DataItem:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        importance:
+          type: string
+          enum: [critical, high, medium, low]
+      required:
+        - name
+        - description
+        - importance
+
+    Recommendation:
+      type: object
+      properties:
+        priority:
+          type: string
+          enum: [high, medium, low]
+        action:
+          type: string
+        impact:
+          type: string
+        effort:
+          type: string
+          enum: [low, medium, high]
+      required:
+        - priority
+        - action
+        - impact
+        - effort
+
+    TimelineEvent:
+      type: object
+      properties:
+        phase:
+          type: string
+        description:
+          type: string
+        duration:
+          type: string
+        status:
+          type: string
+          enum: [required, optional, future]
+      required:
+        - phase
+        - description
+        - duration
+        - status
+
+    AnalysisReport:
+      type: object
+      properties:
+        id:
+          type: integer
+        analysisId:
+          type: integer
+        readinessScore:
+          type: integer
+        riskLevel:
+          type: string
+          enum: [low, medium, high]
+        availableData:
+          type: array
+          items:
+            $ref: "#/components/schemas/DataItem"
+        missingData:
+          type: array
+          items:
+            $ref: "#/components/schemas/DataItem"
+        recommendations:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recommendation"
+        explanation:
+          type: string
+        unansweredQuestions:
+          type: array
+          items:
+            type: string
+        columnAnalysis:
+          type: array
+          items:
+            $ref: "#/components/schemas/ColumnInfo"
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - analysisId
+        - readinessScore
+        - riskLevel
+        - availableData
+        - missingData
+        - recommendations
+        - explanation
+        - unansweredQuestions
+        - columnAnalysis
+        - createdAt
+
+    DemoData:
+      type: object
+      properties:
+        analysis:
+          $ref: "#/components/schemas/Analysis"
+        report:
+          $ref: "#/components/schemas/AnalysisReport"
+      required:
+        - analysis
+        - report
+
+    AnalysisStats:
+      type: object
+      properties:
+        totalAnalyses:
+          type: integer
+        avgReadinessScore:
+          type: number
+        highRiskCount:
+          type: integer
+        mediumRiskCount:
+          type: integer
+        lowRiskCount:
+          type: integer
+        recentAnalyses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Analysis"
+      required:
+        - totalAnalyses
+        - avgReadinessScore
+        - highRiskCount
+        - mediumRiskCount
+        - lowRiskCount
+        - recentAnalyses
